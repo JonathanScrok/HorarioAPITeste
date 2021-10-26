@@ -32,6 +32,10 @@ namespace HorarioAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "HorarioAPI", Version = "v1" });
             });
+
+            services.AddHttpsRedirection(options => {
+                options.HttpsPort = 5001;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,7 +44,6 @@ namespace HorarioAPI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseHttpsRedirection();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HorarioAPI v1"));
             }
