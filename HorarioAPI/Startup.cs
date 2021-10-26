@@ -28,13 +28,14 @@ namespace HorarioAPI
         {
 
             services.AddControllers();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "HorarioAPI", Version = "v1" });
-            });
 
             services.AddHttpsRedirection(options => {
                 options.HttpsPort = 5001;
+            });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "HorarioAPI", Version = "v1" });
             });
         }
 
@@ -47,6 +48,14 @@ namespace HorarioAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HorarioAPI v1"));
             }
+
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("X-XSS-Protection", "1; mode=block ");
+                context.Response.Headers.Add("Content-Security-Policy", "default-src 'self';");
+                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                await next.Invoke();
+            });
 
             app.UseHttpsRedirection();
 
