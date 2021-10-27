@@ -45,8 +45,6 @@ namespace HorarioAPI
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "HorarioAPI v1"));
             }
 
-
-
             app.UseRouting();
 
             app.UseAuthorization();
